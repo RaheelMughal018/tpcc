@@ -1,0 +1,504 @@
+/* TPC-C Multi-Database Testing Application - Custom Styles */
+
+/* GLOBAL DARK TEXT OVERRIDES - Force all text to be dark and readable */
+body {
+    color: #212529 !important;
+}
+
+/* Override all Bootstrap text colors */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #212529 !important;
+    font-weight: 600 !important;
+}
+
+p,
+span,
+div,
+td,
+th,
+li,
+a:not(.btn) {
+    color: #212529 !important;
+}
+
+/* Navigation text overrides */
+.navbar-text,
+.navbar-brand {
+    color: #ffffff !important;
+}
+
+.nav-link {
+    color: #212529 !important;
+    font-weight: 500 !important;
+}
+
+.nav-link:hover {
+    color: #007bff !important;
+}
+
+.nav-link.active {
+    color: #ffffff !important;
+}
+
+/* Bootstrap utility class overrides */
+.text-muted {
+    color: #343a40 !important;
+    font-weight: 500 !important;
+}
+
+.text-secondary {
+    color: #495057 !important;
+    font-weight: 500 !important;
+}
+
+/* Table text overrides */
+.table,
+.table td,
+.table th {
+    color: #212529 !important;
+}
+
+/* Form text overrides */
+.form-label,
+.form-text,
+.form-control {
+    color: #212529 !important;
+}
+
+/* Enhanced animations and transitions */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading states */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Enhanced metric cards */
+.metric-card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #212529;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-healthy {
+    background-color: #28a745;
+}
+
+.status-warning {
+    background-color: #ffc107;
+}
+
+.status-error {
+    background-color: #dc3545;
+}
+
+/* Enhanced tables */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #212529;
+}
+
+/* Custom badges */
+.badge-custom {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Enhanced buttons */
+.btn {
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-group .btn {
+    transform: none;
+}
+
+/* Modal enhancements */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Form enhancements */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Alert enhancements */
+.alert {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-dismissible .btn-close {
+    padding: 0.75rem 1rem;
+}
+
+/* Progress bars */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    border-radius: 4px;
+}
+
+/* Sidebar enhancements */
+.sidebar .nav-link {
+    color: #212529 !important;
+    padding: 0.75rem 1rem;
+    margin: 0.125rem 0;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+}
+
+.sidebar .nav-link.active {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.sidebar .nav-link i {
+    width: 20px;
+    text-align: center;
+    margin-right: 8px;
+}
+
+/* Provider badge */
+.provider-badge {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Quick actions floating button */
+.quick-actions {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.quick-actions .btn {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+    .metric-value {
+        font-size: 2rem;
+    }
+
+    .sidebar {
+        background-color: white;
+        border-right: 1px solid #e9ecef;
+    }
+
+    .quick-actions {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .quick-actions .btn {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* Light background cards with dark text for better readability */
+.card {
+    background-color: #ffffff !important;
+    border: 1px solid #e9ecef;
+    color: #212529;
+}
+
+.card-body h5,
+.card-body .metric-value,
+.card-title {
+    color: #212529 !important;
+    font-weight: 700;
+}
+
+.card-body p,
+.card-body .metric-label,
+.card-text {
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+.card .text-muted {
+    color: #343a40 !important;
+    font-weight: 500;
+}
+
+/* Status indicators with good contrast on light backgrounds */
+.text-success {
+    color: #198754 !important;
+    font-weight: bold;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
+
+.text-warning {
+    color: #fd7e14 !important;
+    font-weight: bold;
+}
+
+.text-info {
+    color: #0dcaf0 !important;
+    font-weight: bold;
+}
+
+.text-primary {
+    color: #0d6efd !important;
+    font-weight: bold;
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .card {
+        background-color: #2d3748;
+        border-color: #4a5568;
+        color: #ffffff;
+    }
+
+    .table {
+        color: #e2e8f0;
+    }
+
+    .table th {
+        color: #a0aec0;
+        border-color: #4a5568;
+    }
+
+    .sidebar {
+        background-color: #2d3748;
+    }
+
+    .sidebar .nav-link {
+        color: #e2e8f0;
+    }
+}
+
+/* Loading spinner */
+.spinner-custom {
+    width: 2rem;
+    height: 2rem;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+/* Transaction status indicators */
+.transaction-success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.transaction-error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.transaction-pending {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+/* ACID test specific styles */
+.acid-test-card {
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.acid-test-card.test-passed {
+    border-left-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.05);
+}
+
+.acid-test-card.test-failed {
+    border-left-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.acid-test-card.test-running {
+    border-left-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Inventory status colors */
+.stock-critical {
+    color: #dc3545;
+}
+
+.stock-low {
+    color: #fd7e14;
+}
+
+.stock-medium {
+    color: #ffc107;
+}
+
+.stock-good {
+    color: #28a745;
+}
+
+/* Payment amount styling */
+.payment-small {
+    color: #28a745;
+}
+
+.payment-medium {
+    color: #17a2b8;
+}
+
+.payment-large {
+    color: #ffc107;
+}
+
+.payment-xlarge {
+    color: #dc3545;
+}
+
+/* Utility classes */
+.text-shadow {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.border-radius-lg {
+    border-radius: 12px;
+}
+
+.box-shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.box-shadow-lg {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Print styles */
+@media print {
+
+    .sidebar,
+    .quick-actions,
+    .btn,
+    .modal {
+        display: none !important;
+    }
+
+    .main {
+        margin-left: 0 !important;
+    }
+
+    .card {
+        border: 1px solid #000;
+        break-inside: avoid;
+    }
+}

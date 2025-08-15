@@ -1,0 +1,480 @@
+{% extends "base.html" %}
+
+{% block title %}ACID Tests - TPC-C Testing{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">ACID Compliance Testing</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <span class="badge bg-info provider-badge">{{ provider }}</span>
+    </div>
+</div>
+
+<!-- ACID Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-info-circle"></i> About ACID Properties
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h6 class="text-primary">Atomicity</h6>
+                        <p class="small">Transactions are all-or-nothing. Either all operations succeed or all fail.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6 class="text-success">Consistency</h6>
+                        <p class="small">Database remains in a valid state before and after transactions.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6 class="text-warning">Isolation</h6>
+                        <p class="small">Concurrent transactions don't interfere with each other.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6 class="text-danger">Durability</h6>
+                        <p class="small">Committed transactions persist even after system failures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Test Results Summary -->
+<div class="row mb-4" id="testResultsSummary" style="display: none;">
+    <div class="col-md-3">
+        <div class="card text-center" id="atomicityCard">
+            <div class="card-body">
+                <h5 class="card-title" id="atomicityStatus">-</h5>
+                <p class="card-text">Atomicity</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center" id="consistencyCard">
+            <div class="card-body">
+                <h5 class="card-title" id="consistencyStatus">-</h5>
+                <p class="card-text">Consistency</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center" id="isolationCard">
+            <div class="card-body">
+                <h5 class="card-title" id="isolationStatus">-</h5>
+                <p class="card-text">Isolation</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center" id="durabilityCard">
+            <div class="card-body">
+                <h5 class="card-title" id="durabilityStatus">-</h5>
+                <p class="card-text">Durability</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Individual Test Sections -->
+<div class="row">
+    <!-- Atomicity Test -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-arrow-repeat text-primary"></i> Atomicity Test
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Tests that transactions are atomic - either all operations succeed or all fail.</p>
+                <div class="mb-3">
+                    <strong>Test Scenario:</strong>
+                    <ul class="small">
+                        <li>Start a new order transaction</li>
+                        <li>Intentionally cause a failure mid-transaction</li>
+                        <li>Verify that no partial changes are committed</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" onclick="runAtomicityTest()">
+                    <i class="bi bi-play-circle"></i> Run Atomicity Test
+                </button>
+                <div id="atomicityResult" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consistency Test -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-check-circle text-success"></i> Consistency Test
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Tests that database constraints are maintained across transactions.</p>
+                <div class="mb-3">
+                    <strong>Test Scenario:</strong>
+                    <ul class="small">
+                        <li>Attempt to violate foreign key constraints</li>
+                        <li>Try to insert invalid data</li>
+                        <li>Verify constraints are enforced</li>
+                    </ul>
+                </div>
+                <button class="btn btn-success" onclick="runConsistencyTest()">
+                    <i class="bi bi-play-circle"></i> Run Consistency Test
+                </button>
+                <div id="consistencyResult" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Isolation Test -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-shield text-warning"></i> Isolation Test
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Tests that concurrent transactions don't interfere with each other.</p>
+                <div class="mb-3">
+                    <strong>Test Scenario:</strong>
+                    <ul class="small">
+                        <li>Run multiple concurrent transactions</li>
+                        <li>Check for dirty reads, phantom reads</li>
+                        <li>Verify transaction isolation levels</li>
+                    </ul>
+                </div>
+                <button class="btn btn-warning" onclick="runIsolationTest()">
+                    <i class="bi bi-play-circle"></i> Run Isolation Test
+                </button>
+                <div id="isolationResult" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Durability Test -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-save text-danger"></i> Durability Test
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Tests that committed transactions persist even after system restart.</p>
+                <div class="mb-3">
+                    <strong>Test Scenario:</strong>
+                    <ul class="small">
+                        <li>Commit a transaction</li>
+                        <li>Simulate connection interruption</li>
+                        <li>Verify data persists after reconnection</li>
+                    </ul>
+                </div>
+                <button class="btn btn-danger" onclick="runDurabilityTest()">
+                    <i class="bi bi-play-circle"></i> Run Durability Test
+                </button>
+                <div id="durabilityResult" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Run All Tests -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Complete ACID Test Suite</h5>
+                <p class="card-text">Run all ACID compliance tests sequentially to get a comprehensive report.</p>
+                <button class="btn btn-lg btn-primary" onclick="runAllTests()">
+                    <i class="bi bi-play-circle-fill"></i> Run All ACID Tests
+                </button>
+                <div id="allTestsProgress" class="mt-3" style="display: none;">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                             role="progressbar" style="width: 0%" id="progressBar"></div>
+                    </div>
+                    <small class="text-muted mt-2 d-block" id="progressText">Preparing tests...</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Test History -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clock-history"></i> Test History
+                </h5>
+            </div>
+            <div class="card-body">
+                <div id="testHistory">
+                    <p class="text-muted">No tests have been run yet. Run some ACID tests to see the history here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let testHistory = [];
+
+function runAtomicityTest() {
+    const resultDiv = document.getElementById('atomicityResult');
+    const button = event.target;
+    
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testing...';
+    
+    showLoading(resultDiv);
+    
+    makeRequest('/api/test/acid/atomicity', 'POST')
+        .then(response => {
+            displayTestResult(resultDiv, 'Atomicity', response);
+            // Use status field if available, otherwise use success field
+            updateTestSummary('atomicity', response.status || response.success);
+            addToHistory('Atomicity', response);
+        })
+        .finally(() => {
+            button.disabled = false;
+            button.innerHTML = '<i class="bi bi-play-circle"></i> Run Atomicity Test';
+        });
+}
+
+function runConsistencyTest() {
+    const resultDiv = document.getElementById('consistencyResult');
+    const button = event.target;
+    
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testing...';
+    
+    showLoading(resultDiv);
+    
+    makeRequest('/api/test/acid/consistency', 'POST')
+        .then(response => {
+            displayTestResult(resultDiv, 'Consistency', response);
+            // Use status field if available, otherwise use success field
+            updateTestSummary('consistency', response.status || response.success);
+            addToHistory('Consistency', response);
+        })
+        .finally(() => {
+            button.disabled = false;
+            button.innerHTML = '<i class="bi bi-play-circle"></i> Run Consistency Test';
+        });
+}
+
+function runIsolationTest() {
+    const resultDiv = document.getElementById('isolationResult');
+    const button = event.target;
+    
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testing...';
+    
+    showLoading(resultDiv);
+    
+    makeRequest('/api/test/acid/isolation', 'POST')
+        .then(response => {
+            displayTestResult(resultDiv, 'Isolation', response);
+            // Use status field if available, otherwise use success field
+            updateTestSummary('isolation', response.status || response.success);
+            addToHistory('Isolation', response);
+        })
+        .finally(() => {
+            button.disabled = false;
+            button.innerHTML = '<i class="bi bi-play-circle"></i> Run Isolation Test';
+        });
+}
+
+function runDurabilityTest() {
+    const resultDiv = document.getElementById('durabilityResult');
+    const button = event.target;
+    
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testing...';
+    
+    showLoading(resultDiv);
+    
+    makeRequest('/api/test/acid/durability', 'POST')
+        .then(response => {
+            displayTestResult(resultDiv, 'Durability', response);
+            // Use status field if available, otherwise use success field
+            updateTestSummary('durability', response.status || response.success);
+            addToHistory('Durability', response);
+        })
+        .finally(() => {
+            button.disabled = false;
+            button.innerHTML = '<i class="bi bi-play-circle"></i> Run Durability Test';
+        });
+}
+
+async function runAllTests() {
+    const button = event.target;
+    const progressDiv = document.getElementById('allTestsProgress');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Running Tests...';
+    progressDiv.style.display = 'block';
+    
+    const tests = [
+        { name: 'Atomicity', endpoint: 'atomicity', resultDiv: 'atomicityResult' },
+        { name: 'Consistency', endpoint: 'consistency', resultDiv: 'consistencyResult' },
+        { name: 'Isolation', endpoint: 'isolation', resultDiv: 'isolationResult' },
+        { name: 'Durability', endpoint: 'durability', resultDiv: 'durabilityResult' }
+    ];
+    
+    for (let i = 0; i < tests.length; i++) {
+        const test = tests[i];
+        const progress = ((i + 1) / tests.length) * 100;
+        
+        progressText.textContent = `Running ${test.name} test...`;
+        progressBar.style.width = `${progress}%`;
+        
+        const resultDiv = document.getElementById(test.resultDiv);
+        showLoading(resultDiv);
+        
+        try {
+            const response = await makeRequest(`/api/test/acid/${test.endpoint}`, 'POST');
+            displayTestResult(resultDiv, test.name, response);
+            // Use status field if available, otherwise use success field
+            updateTestSummary(test.endpoint, response.status || response.success);
+            addToHistory(test.name, response);
+        } catch (error) {
+            showError(resultDiv, `${test.name} test failed: ${error.message}`);
+            updateTestSummary(test.endpoint, false);
+        }
+        
+        // Small delay between tests
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    
+    progressText.textContent = 'All tests completed!';
+    setTimeout(() => {
+        progressDiv.style.display = 'none';
+    }, 2000);
+    
+    button.disabled = false;
+    button.innerHTML = '<i class="bi bi-play-circle-fill"></i> Run All ACID Tests';
+}
+
+function displayTestResult(resultDiv, testName, response) {
+    // Check if the test passed using either success field or status field
+    const testPassed = response.success === true || response.status === "passed";
+    
+    if (testPassed) {
+        resultDiv.innerHTML = `
+            <div class="alert alert-success">
+                <h6><i class="bi bi-check-circle"></i> ${testName} Test Passed</h6>
+                <p><strong>Result:</strong> ${response.message || response.description || 'Test completed successfully'}</p>
+                ${response.details ? `<p><strong>Details:</strong> ${response.details}</p>` : ''}
+                <p><strong>Duration:</strong> ${response.duration || 'N/A'}</p>
+            </div>
+        `;
+    } else {
+        resultDiv.innerHTML = `
+            <div class="alert alert-danger">
+                <h6><i class="bi bi-x-circle"></i> ${testName} Test Failed</h6>
+                <p><strong>Error:</strong> ${response.error || 'Test failed'}</p>
+                ${response.details ? `<p><strong>Details:</strong> ${response.details}</p>` : ''}
+                <p><strong>Note:</strong> This may indicate a limitation in the current test implementation rather than a database issue.</p>
+            </div>
+        `;
+    }
+}
+
+function updateTestSummary(testType, success) {
+    const card = document.getElementById(`${testType}Card`);
+    const status = document.getElementById(`${testType}Status`);
+    
+    document.getElementById('testResultsSummary').style.display = 'flex';
+    
+    // Convert string "passed" to boolean true for compatibility
+    const testPassed = success === true || success === "passed";
+    
+    if (testPassed) {
+        card.className = 'card text-center border-success';
+        status.innerHTML = '<i class="bi bi-check-circle text-success"></i> PASS';
+    } else {
+        card.className = 'card text-center border-danger';
+        status.innerHTML = '<i class="bi bi-x-circle text-danger"></i> FAIL';
+    }
+}
+
+function addToHistory(testName, response) {
+    const timestamp = new Date().toLocaleString();
+    // Check if the test passed using either success field or status field
+    const testPassed = response.success === true || response.status === "passed";
+    
+    testHistory.unshift({
+        test: testName,
+        success: testPassed,
+        timestamp: timestamp,
+        message: response.message || response.description || response.error || 'No message'
+    });
+    
+    // Keep only last 10 results
+    if (testHistory.length > 10) {
+        testHistory = testHistory.slice(0, 10);
+    }
+    
+    updateHistoryDisplay();
+}
+
+function updateHistoryDisplay() {
+    const historyDiv = document.getElementById('testHistory');
+    
+    if (testHistory.length === 0) {
+        historyDiv.innerHTML = '<p class="text-muted">No tests have been run yet.</p>';
+        return;
+    }
+    
+    const historyHtml = testHistory.map(entry => `
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div>
+                <strong>${entry.test}</strong>
+                <span class="badge ${entry.success ? 'bg-success' : 'bg-danger'} ms-2">
+                    ${entry.success ? 'PASS' : 'FAIL'}
+                </span>
+                <br>
+                <small class="text-muted">${entry.message}</small>
+            </div>
+            <small class="text-muted">${entry.timestamp}</small>
+        </div>
+    `).join('');
+    
+    historyDiv.innerHTML = historyHtml;
+}
+
+// Note about test implementation
+document.addEventListener('DOMContentLoaded', function() {
+    // Show a note about test availability
+    const note = document.createElement('div');
+    note.className = 'alert alert-info mt-3';
+    note.innerHTML = `
+        <h6><i class="bi bi-info-circle"></i> Implementation Note</h6>
+        <p>ACID tests are currently simulated for demonstration purposes. In a production environment, these would be comprehensive tests that:</p>
+        <ul class="mb-0">
+            <li>Test actual transaction rollback scenarios</li>
+            <li>Verify constraint enforcement</li>
+            <li>Test concurrent transaction isolation</li>
+            <li>Validate data persistence after system failures</li>
+        </ul>
+    `;
+    
+    document.querySelector('.container-fluid .row:last-child .card-body').appendChild(note);
+});
+</script>
+{% endblock %}

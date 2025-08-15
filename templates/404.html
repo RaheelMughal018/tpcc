@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - TPC-C Testing{% endblock %}
+
+{% block content %}
+<div class="container-fluid h-100">
+    <div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+        <div class="col-md-6 text-center">
+            <div class="error-page">
+                <h1 class="display-1 text-primary">404</h1>
+                <h2 class="mb-4">Page Not Found</h2>
+                <p class="lead mb-4">
+                    The page you're looking for doesn't exist or has been moved.
+                </p>
+                <div class="mb-4">
+                    <i class="bi bi-search display-4 text-muted"></i>
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-house"></i> Go to Dashboard
+                    </a>
+                    <button onclick="history.back()" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Go Back
+                    </button>
+                </div>
+                
+                <div class="mt-5">
+                    <h5>Quick Links</h5>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <a href="{{ url_for('orders') }}" class="btn btn-outline-primary w-100 mb-2">
+                                <i class="bi bi-cart"></i><br>Orders
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('inventory') }}" class="btn btn-outline-primary w-100 mb-2">
+                                <i class="bi bi-boxes"></i><br>Inventory
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('payments') }}" class="btn btn-outline-primary w-100 mb-2">
+                                <i class="bi bi-credit-card"></i><br>Payments
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('test_acid') }}" class="btn btn-outline-primary w-100 mb-2">
+                                <i class="bi bi-check-circle"></i><br>ACID Tests
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    padding: 2rem;
+}
+
+.error-page h1 {
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-page .btn {
+    margin: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .error-page h1 {
+        font-size: 4rem;
+    }
+    
+    .error-page .btn-lg {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}
+</style>
+{% endblock %}
