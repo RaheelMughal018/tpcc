@@ -85,99 +85,99 @@ class AnalyticsService:
             metrics = {}
 
             # Get warehouse count
-            # try:
-            #     result = self.connector.execute_query(
-            #         "SELECT COUNT(*) as count FROM warehouse"
-            #     )
-            #     metrics["total_warehouses"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get warehouse count: {str(e)}")
-            #     metrics["total_warehouses"] = 0
+            try:
+                result = self.connector.execute_query(
+                    "SELECT COUNT(*) as count FROM warehouse"
+                )
+                metrics["total_warehouses"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to get warehouse count: {str(e)}")
+                metrics["total_warehouses"] = 0
 
-            # # Get customer count
-            # try:
-            #     result = self.connector.execute_query(
-            #         "SELECT COUNT(*) as count FROM customer"
-            #     )
-            #     metrics["total_customers"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get customer count: {str(e)}")
-            #     metrics["total_customers"] = 0
+            # Get customer count
+            try:
+                result = self.connector.execute_query(
+                    "SELECT COUNT(*) as count FROM customer"
+                )
+                metrics["total_customers"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to get customer count: {str(e)}")
+                metrics["total_customers"] = 0
 
-            # # Get order count
-            # try:
-            #     result = self.connector.execute_query(
-            #         'SELECT COUNT(*) as count FROM "order"'
-            #     )
-            #     metrics["total_orders"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get order count: {str(e)}")
-            #     metrics["total_orders"] = 0
+            # Get order count
+            try:
+                result = self.connector.execute_query(
+                    'SELECT COUNT(*) as count FROM "order"'
+                )
+                metrics["total_orders"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to get order count: {str(e)}")
+                metrics["total_orders"] = 0
 
-            # # Get item count
-            # try:
-            #     result = self.connector.execute_query(
-            #         "SELECT COUNT(*) as count FROM item"
-            #     )
-            #     metrics["total_items"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get item count: {str(e)}")
-            #     metrics["total_items"] = 0
+            # Get item count
+            try:
+                result = self.connector.execute_query(
+                    "SELECT COUNT(*) as count FROM item"
+                )
+                metrics["total_items"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to get item count: {str(e)}")
+                metrics["total_items"] = 0
                 
-            # try: 
-            #  # Count new orders (i.e., orders present in new_order table)
-            #     query_new_orders = """
-            #         SELECT COUNT(*) as count
-            #         FROM "order" o
-            #         JOIN new_order no
-            #         ON no.no_w_id = o.o_w_id
-            #         AND no.no_d_id = o.o_d_id
-            #         AND no.no_o_id = o.o_id
-            #     """
-            #     result = self.connector.execute_query(query_new_orders)
-            #     metrics["new_orders"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get new orders count: {str(e)}")
-            #     metrics["new_orders"] = 0
+            try: 
+             # Count new orders (i.e., orders present in new_order table)
+                query_new_orders = """
+                    SELECT COUNT(*) as count
+                    FROM "order" o
+                    JOIN new_order no
+                    ON no.no_w_id = o.o_w_id
+                    AND no.no_d_id = o.o_d_id
+                    AND no.no_o_id = o.o_id
+                """
+                result = self.connector.execute_query(query_new_orders)
+                metrics["new_orders"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to get new orders count: {str(e)}")
+                metrics["new_orders"] = 0
             
-            # try:
-            #     result = self.connector.execute_query(
-            #         "SELECT COUNT(*) as count FROM stock WHERE s_quantity < 50"
-            #     )
-            #     metrics["low_stock_items"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(
-            #         f"Failed to get low stock items count: {str(e)}")
-            #     metrics["low_stock_items"] = 0
+            try:
+                result = self.connector.execute_query(
+                    "SELECT COUNT(*) as count FROM stock WHERE s_quantity < 50"
+                )
+                metrics["low_stock_items"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(
+                    f"Failed to get low stock items count: {str(e)}")
+                metrics["low_stock_items"] = 0
 
-            # try:
-            #     # Add orders_last_24h
-            #     query_orders_24h = """
-            #         SELECT COUNT(*) as count 
-            #         FROM "order"
-            #         WHERE o_entry_d >= NOW() - INTERVAL '24 HOURS'
-            #     """
-            #     result = self.connector.execute_query(query_orders_24h)
-            #     metrics["orders_last_24h"] = result[0]["count"] if result else 0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get orders_last_24h: {str(e)}")
-            #     metrics["orders_last_24h"] = 0
+            try:
+                # Add orders_last_24h
+                query_orders_24h = """
+                    SELECT COUNT(*) as count 
+                    FROM "order"
+                    WHERE o_entry_d >= NOW() - INTERVAL '24 HOURS'
+                """
+                result = self.connector.execute_query(query_orders_24h)
+                metrics["orders_last_24h"] = result[0]["count"] if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to get orders_last_24h: {str(e)}")
+                metrics["orders_last_24h"] = 0
 
-            # try:
-            #     # Add avg_order_value
-            #     query_avg_order_value = """
-            #         SELECT AVG(ol_amount) as avg_value
-            #         FROM order_line
-            #         WHERE ol_o_id IN (
-            #             SELECT o_id FROM "order" WHERE o_entry_d >= NOW() - INTERVAL '24 HOURS'
-            #         )
-            #     """
-            #     result = self.connector.execute_query(query_avg_order_value)
-            #     metrics["avg_order_value"] = float(
-            #         result[0]["avg_value"]) if result and result[0]["avg_value"] else 0.0
-            # except Exception as e:
-            #     logger.warning(f"Failed to get avg_order_value: {str(e)}")
-            #     metrics["avg_order_value"] = 0.0
+            try:
+                # Add avg_order_value
+                query_avg_order_value = """
+                    SELECT AVG(ol_amount) as avg_value
+                    FROM order_line
+                    WHERE ol_o_id IN (
+                        SELECT o_id FROM "order" WHERE o_entry_d >= NOW() - INTERVAL '24 HOURS'
+                    )
+                """
+                result = self.connector.execute_query(query_avg_order_value)
+                metrics["avg_order_value"] = float(
+                    result[0]["avg_value"]) if result and result[0]["avg_value"] else 0.0
+            except Exception as e:
+                logger.warning(f"Failed to get avg_order_value: {str(e)}")
+                metrics["avg_order_value"] = 0.0
 
             return {
                 "success": True,
